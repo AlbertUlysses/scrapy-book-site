@@ -4,7 +4,6 @@ import scrapy
 class BookSpider(scrapy.Spider):
     name= "books"
 
-"""
     #firts page code, json file produces the categories and links provided on the side bar
     start_urls = ["http://books.toscrape.com/"]
 
@@ -25,7 +24,7 @@ class BookSpider(scrapy.Spider):
                 }
 
 
-
+"""
     #the first link provided by the side column of main page provides the name and link
     start_urls = ["http://books.toscrape.com/catalogue/category/books/travel_2/index.html"]
 
