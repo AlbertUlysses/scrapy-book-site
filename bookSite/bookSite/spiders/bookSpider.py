@@ -4,6 +4,32 @@ import scrapy
 class BookSpider(scrapy.Spider):
     name= "books"
 
+    #first link provided by travel. it's a webpage that has the standard layout of the webpages \
+    # for books
+
+    start_urls = ["http://books.toscrape.com/catalogue/its-only-the-himalayas_981/index.html"]
+
+    def parse(self, response):
+        #saves html
+        filename = 'its-only-the-himalayas.html'
+        with open(filename, 'wb') as f:
+            f.write(response.body)
+        self.log('Saved file %s' % filename)
+
+        for path in response.xpath('//*[@id="content_inner"]/article/div[1]/div[2]'):
+            yield {
+                    "book name": path.xpath('//*[@id="content_inner"]/article/div[1]/div[2]/h1/text()').get(),
+                    "listed price in pounds": path.xpath('//*[@id="content_inner"]/article/div[1]/div[2]/p[1]/text()').get(),
+                    "rating": path.xpath('//*[@id="content_inner"]/article/div[1]/div[2]/p[3]/@class').get(),
+                    "UPC": path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[0].get().split(),
+                    "Product type": path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[1].get().split(),
+                    "price excl. tax in lbs": path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[2].get().split(),
+                    "price incl. tax in lbs": path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[3].get().split(),
+                    "tax in lbs": path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[4].get().split(),
+                    "availability and number available": path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[5].get().split(),
+                    "number of reviews": path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[6].get().split(),
+                }
+
 
 """
     #firts page code, json file produces the categories and links provided on the side bar
