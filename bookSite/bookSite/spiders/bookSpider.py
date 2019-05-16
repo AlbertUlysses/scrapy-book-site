@@ -2,38 +2,55 @@ import scrapy
 
 
 class BookSpider(scrapy.Spider):
-    name= "books"
+    name = "books"
 
-    #firts page code, json file produces the categories and links provided on the side bar
+
+    # Firts page code, the code creates an html page then yields the category text and links from the webpage.
     start_urls = ["http://books.toscrape.com/"]
-
-
-    #spider that yields the book categories and links from the mainpage    
+    
     def parse(self, response):
-        #saves html
+        # Saves the webpage to an html file so the data is never lost.
         filename = 'booksToScrapeMain.html'
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log('Saved file %s' % filename)
 
-        #enumerates using index to prevent yielding the same value 50 times 
+        # This empty list will be used to gather the links.
+
+        next_page = []
+
+        # Enumerates to prevent yielding the same value 50 times. 
         for index, book in enumerate(response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a')):
             yield {
                     'category': book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/text()')[index].get().strip(),
                     'link': book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get()
                 }
+            next_page.append(book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get())
+        
+        if next_page is not None:
+            next_page = response.urljoin(next_page)
+            yield scrapy.Request(next_page, callback = self.parse)
+
+        """for next in next_page:
+            yield scrapy.Request(url=next, callback = self.parse)
+        """
+
+        page = response.url.split("/")[-2]
+        filename = 'books-%s.html' % page
+        with open(filename, 'wb') as f:
+            f.write(response.body)
+        self.log('Saved file %s' % filename)
+
 """        
+        # This code is to have the spider crawl from page to page.
+        # This code is blocked out to help troubleshoot the above code. 
         next_page = response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a//@href').get()
         
         if next_page is not None:
             next_page = response.urljoin(next_page)
             yield scrapy.Request(next_page, callback=self.parse)
         
-        page = response.url.split("/")[-2]
-        filename = 'books-%s.html' % page
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        self.log('Saved file %s' % filename)
+        
 
 
 
