@@ -1,11 +1,9 @@
 import scrapy
-
+from booksite.items import BooksiteItem
 
 class BookSpider(scrapy.Spider):
     name = "books"
-
-
-    # Firts page code, the code creates an html page then yields the category text and links from the webpage.
+    # The code creates an html page then yields the category text and links from the web page's side panel.
     start_urls = ["http://books.toscrape.com/"]
     
     def parse(self, response):
@@ -14,32 +12,30 @@ class BookSpider(scrapy.Spider):
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log('Saved file %s' % filename)
-
         # This empty list will be used to gather the links.
-
         next_page = []
-
         # Enumerates to prevent yielding the same value 50 times. 
         for index, book in enumerate(response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a')):
             yield {
                     'category': book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/text()')[index].get().strip(),
                     'link': book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get()
                 }
-            next_page.append(book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get())
         
-        if next_page is not None:
-            next_page = response.urljoin(next_page)
-            yield scrapy.Request(next_page, callback = self.parse)
-
-        """for next in next_page:
-            yield scrapy.Request(url=next, callback = self.parse)
-        """
-
+            next_page.append(book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get())
+        # The program loops over the list to create functional urls that we can save to HTML files.
+        for type in next_page:
+                    if type is not None:
+                        type = response.urljoin(type)
+                        yield scrapy.Request(type, callback = self.parse)
+        
+        # The next few lines of code save the web pages as an HTML file in the current folder.
+        # We are saving the web pages to avoid losing the original source.
         page = response.url.split("/")[-2]
         filename = 'books-%s.html' % page
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log('Saved file %s' % filename)
+        
 
 """        
         # This code is to have the spider crawl from page to page.
