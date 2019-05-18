@@ -32,64 +32,20 @@ Goal:
 -ontop of the json and html data I will need to save each html page incase the data was\
 not processed correctly, the data will not be lost
 
-How I think I'll be able to move to the next website and gather the first \
-yield
--see this webpage:https://docs.scrapy.org/en/latest/topics/spiders.html
--under the first spider type you'll see "let's see an example"
--The following code is from the second example, I believe we can call a second\
-for loop that will yield different data, which means I can probably yield \
-more than one for loop. 
--the only issue i can potentially see in getting the data onto a json file.
-
-
-import scrapy
-
-class MySpider(scrapy.Spider):
-    name = 'example.com'
-    allowed_domains = ['example.com']
-    start_urls = [
-        'http://www.example.com/1.html',
-        'http://www.example.com/2.html',
-        'http://www.example.com/3.html',
-    ]
-
-    def parse(self, response):
-        for h3 in response.xpath('//h3').getall():
-            yield {"title": h3}
-
-        for href in response.xpath('//a/@href').getall():
-            yield scrapy.Request(response.urljoin(href), self.parse)
-
-
-
-
 
 ---------------------------
 BRAINSTORMING AREA:
-so I think i have figured out how to go to the next page and save the html, 
-I'll have to create a new function and it'll process after the first one has been processed
-or i can yield the link in a different yield output and save it into a list, then use the orginal code to loop through those links like this:
-**the only issue I can see right now is that the list is inside of the start_requests function, i'll have to look at the short cut and overwrite the\
-start_urls variable**
+Currently I can scrap the first page for both the html and the data I am looking for.
+I want to be able to save the yielded data seperately, the -o books.json technique doesn't allow for me to seperate the \
+data I want. I will start looking into a pipeline to save the data at each step.
 
 
-import scrapy
+To me a cleaner looking code will be seperate functions that will handle different things
+
+Having multiple spiders may not be necessary
+I will create mutliple spiders later if the code looks cleaner
 
 
-class QuotesSpider(scrapy.Spider):
-    name = "quotes"
+python recursion by also help!
 
-    def start_requests(self):
-        urls = [
-            'http://quotes.toscrape.com/page/1/',
-            'http://quotes.toscrape.com/page/2/',
-        ]
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
 
-    def parse(self, response):
-        page = response.url.split("/")[-2]
-        filename = 'quotes-%s.html' % page
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        self.log('Saved file %s' % filename)
