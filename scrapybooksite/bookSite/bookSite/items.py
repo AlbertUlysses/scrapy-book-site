@@ -8,7 +8,7 @@
 import scrapy
 
 
-class BooksiteItem(scrapy.Item):
+class BookSiteItem(scrapy.Item):
     category = scrapy.Field()
     link = scrapy.Field()
 

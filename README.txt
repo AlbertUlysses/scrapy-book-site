@@ -35,7 +35,15 @@ not processed correctly, the data will not be lost
 
 ---------------------------
 BRAINSTORMING AREA:
+
+Currently I am working on using the Item page
+I need to learn how to do a loop to gather the data
+
+---------------------------
 Currently I can scrap the first page for both the html and the data I am looking for.
+
+
+
 I want to be able to save the yielded data seperately, the -o books.json technique doesn't allow for me to seperate the \
 data I want. I will start looking into a pipeline to save the data at each step.
 
