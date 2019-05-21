@@ -3,22 +3,21 @@ from booksite.items import BookSiteItem
 
 class BookSpider(scrapy.Spider):
     name = "books"
-    # The code creates an html page then yields the category text and links from the web page's side panel.
     start_urls = ["http://books.toscrape.com/"]
-
-    # Saves the webpage to an html file so the data is never lost.
+    
     def parse(self, response):
+        # Saves the webpage to an html file so the data is never lost.
         filename = 'booksToScrapeMain.html'
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log('Saved file %s' % filename)
         
-    def parse_item(self, response):
+        # Enumerates to prevent yielding the same value 50 times.
         item = BookSiteItem()
-        item['category'] = response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/text()').get().strip()
-        item['link'] = response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href').get()
-       
-        return item
+        for index, book in enumerate(response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a')):
+                    item['category'] = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/text()')[index].get().strip()
+                    item['link'] = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get()
+                    yield item
 
 
         # This empty list will be used to gather the links.
