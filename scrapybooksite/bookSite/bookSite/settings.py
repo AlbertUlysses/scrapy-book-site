@@ -88,3 +88,8 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+
+# Enable and configure the Feed Export to save files to generate a feed with the scraped items.
+FEED_FORMAT = "json"
+FEED_URI = "file:///C:/Users/alber/Desktop/myWork/projects/scrapy-book-site/scrapybooksite/booksite/booksite/spiders/jsonfiles/books-%(time)s.json" 

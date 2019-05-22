@@ -1,5 +1,5 @@
 import scrapy
-from booksite.items import BookSiteItem
+from booksite.items import BookSiteMainItem
 
 class BookSpider(scrapy.Spider):
     name = "books"
@@ -11,12 +11,14 @@ class BookSpider(scrapy.Spider):
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log('Saved file %s' % filename)
+
         
         # Enumerates to prevent yielding the same value 50 times.
-        item = BookSiteItem()
+        item = BookSiteMainItem()
         for index, book in enumerate(response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a')):
                     item['category'] = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/text()')[index].get().strip()
                     item['link'] = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get()
+                    
                     yield item
 
 

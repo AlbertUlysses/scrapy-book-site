@@ -1,8 +1,12 @@
 Spider plan:
--create a new spider that will crawl one of the links
--try to merge the spiders so it will move to the next page and yield different data
--create a spider that calls the urls and names
--then extract the real data
+- create a new spider that will crawl one of the links
+- Use the item module as a simple container to save scraped data
+- Create an feeder export to export the data onto my local machine
+
+
+- try to merge the spiders so it will move to the next page and yield different data
+- create a spider that calls the urls and names
+- then extract the real data
 
 The data gethered:
 ** All webpages should be saved**
@@ -26,34 +30,9 @@ The data gethered:
 		-availability and number available: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[5].get().split()
 		-number of reviews: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[6].get().split()[0]
 
-Goal:
--The spider will move to multiple pages and gather different data
--I will create a pipline to move the data to json files
--ontop of the json and html data I will need to save each html page incase the data was\
-not processed correctly, the data will not be lost
-
 
 ---------------------------
 BRAINSTORMING AREA:
 
-Currently I am working on using the Item page
-I need to learn how to do a loop to gather the data
-
----------------------------
-Currently I can scrap the first page for both the html and the data I am looking for.
-
-
-
-I want to be able to save the yielded data seperately, the -o books.json technique doesn't allow for me to seperate the \
-data I want. I will start looking into a pipeline to save the data at each step.
-
-
-To me a cleaner looking code will be seperate functions that will handle different things
-
-Having multiple spiders may not be necessary
-I will create mutliple spiders later if the code looks cleaner
-
-
-python recursion by also help!
 
 
