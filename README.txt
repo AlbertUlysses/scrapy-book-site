@@ -36,3 +36,6 @@ BRAINSTORMING AREA:
 
 
 
+Creating functions for each step is the best way to move around in the code
+
+the pipeline is a little difficult, I want to work on the html code first then move on to the other data pipelines

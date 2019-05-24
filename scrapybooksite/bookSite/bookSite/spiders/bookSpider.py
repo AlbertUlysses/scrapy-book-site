@@ -1,29 +1,60 @@
 import scrapy
-from booksite.items import BookSiteMainItem
+import os.path
+from booksite.items import BookSiteMainItem, BookCategoryItem, BookDataItem
+
 
 class BookSpider(scrapy.Spider):
     name = "books"
     start_urls = ["http://books.toscrape.com/"]
     
     def parse(self, response):
-        # Saves the webpage to an html file so the data is never lost.
-        filename = 'booksToScrapeMain.html'
+        # Saves the webpage to an html file and folder so the data is never lost.
+        html_path = r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\htmlfiles"
+        main_html_name = "booksToScrapeMain.html"
+        filename = os.path.join( html_path, main_html_name ) 
+        with open( filename, 'wb') as f:
+            f.write(response.body)
+        
+        item = BookSiteMainItem()        
+        for index, book in enumerate(response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a')):
+                    item['category'] = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/text()')[index].get().strip()
+                    item['link'] = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get()
+                    yield item
+
+        # This empty list will be used to gather the links.
+        next_page = []
+        
+        # Enumerates to prevent yielding the same value 50 times.
+        for index, book in enumerate(response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a')):
+            next_page.append(book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get())
+               
+        for type in next_page:
+            if type is not None:
+                type = response.urljoin(type)
+            yield scrapy.Request(type, callback = self.parse)
+        
+        html_path = r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\htmlfiles"
+        page = response.url.split("/")[-2]
+        book_html = 'books-%s.html' % page
+        filename = os.path.join(html_path, book_html)
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log('Saved file %s' % filename)
 
-        
-        # Enumerates to prevent yielding the same value 50 times.
+
+"""
+        #alternative code
         item = BookSiteMainItem()
         for index, book in enumerate(response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a')):
-                    item['category'] = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/text()')[index].get().strip()
-                    item['link'] = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get()
-                    
-                    yield item
+                        item['category'] = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/text()')[index].get().strip()
+                        item['link'] = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get()
+                        yield item
+                        next_page.append(book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get())
+    
 
 
         # This empty list will be used to gather the links.
-        """next_page = []
+        next_page = []
         # Enumerates to prevent yielding the same value 50 times. 
         for index, book in enumerate(response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a')):
             yield {
@@ -45,9 +76,9 @@ class BookSpider(scrapy.Spider):
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log('Saved file %s' % filename)
-        """
+        
 
-"""        
+        
         # This code is to have the spider crawl from page to page.
         # This code is blocked out to help troubleshoot the above code. 
         next_page = response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a//@href').get()
@@ -56,16 +87,10 @@ class BookSpider(scrapy.Spider):
             next_page = response.urljoin(next_page)
             yield scrapy.Request(next_page, callback=self.parse)
         
-        
 
 
 
 
-"""
-
-
-
-"""
     #the first link provided by the side column of main page provides the name and link
     start_urls = ["http://books.toscrape.com/catalogue/category/books/travel_2/index.html"]
 
@@ -111,5 +136,4 @@ class BookSpider(scrapy.Spider):
                     "number available": path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[5].get().split()[2:],
                     "number of reviews": path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[6].get().split()[0],
                 }
-
-"""
+                """
