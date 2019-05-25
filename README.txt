@@ -34,8 +34,12 @@ The data gethered:
 ---------------------------
 BRAINSTORMING AREA:
 
+First pipeline is complete, I have created a pipeline for the first page
+next I want to create a pipeline for html
+but also create a list of those html pages so I can then create a parse function similar to the one in the begining of the tutorial
+then I would repeat these steps for the last tree
 
 
-Creating functions for each step is the best way to move around in the code
+I have the html files saved however a recursion has occured and now it is spitting out the same information for all the html files
 
-the pipeline is a little difficult, I want to work on the html code first then move on to the other data pipelines
+what I can do is create an item for it and attempt to redo the process with a pipeline
