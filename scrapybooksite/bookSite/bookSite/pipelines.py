@@ -6,22 +6,36 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import json
 import os.path
-import hashlib
 from scrapy.exceptions import DropItem
+from booksite.items import BookSiteMainItem
 
 
 class BooksitePipeline(object):
     
-    def open_spider(self, books):
+    def open_spider(self, spider):
         self.file = open(r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\jsonfiles\books.json", 'w')
 
     def close_spider(self, books):
         self.file.close()
 
-    def process_item(self, item, books):
-        line = json.dumps(dict(item)) + "\n"
-        self.file.write(line)
-        return item
+    def process_item(self, item, spider):
+        # The if instance ensures that the write data is allowed in this function.
+        if isinstance(item, BookSiteMainItem):
+            line = json.dumps(dict(item)) + "\n"
+            self.file.write(line)
+            return item[['category_name', 'category_link']]
 
+class BooksitePipeline1(object):
+    
+    def open_spider(self, spider):
+        self.file = open(r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\jsonfiles\books1.json", 'w')
 
+    def close_spider(self, spider):
+        self.file.close()
 
+    def process_item(self, item, spider):
+        # The if instance ensures that the write data is allowed in this function.
+        if isinstance(item, BookSiteMainItem):
+            line = json.dumps(dict(item)) + "\n"
+            self.file.write(line)
+            return item[['book_name', 'book_link']]

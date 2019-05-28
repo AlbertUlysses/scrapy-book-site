@@ -9,13 +9,10 @@ import scrapy
 
 
 class BookSiteMainItem(scrapy.Item):
-    category = scrapy.Field()
-    link = scrapy.Field()
-
-
-class BookCategoryItem(scrapy.Item):
-    name = scrapy.Field()
-    link = scrapy.Field()
+    category_name = scrapy.Field()
+    category_link = scrapy.Field()
+    book_name = scrapy.Field()
+    book_link = scrapy.Field()
 
 
 class BookDataItem(scrapy.Item):
@@ -31,4 +28,3 @@ class BookDataItem(scrapy.Item):
     numberavailable = scrapy.Field()
     numberofreviews = scrapy.Field()
 
-#path = r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\htmlfiles\"

@@ -65,7 +65,8 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'booksite.pipelines.BooksitePipeline': 300,
+    'booksite.pipelines.BooksitePipeline': 200,
+    'booksite.pipelines.BooksitePipeline1': 300,           
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -93,3 +94,4 @@ ITEM_PIPELINES = {
 # Enable and configure the Feed Export to save files to generate a feed with the scraped items.
 """FEED_FORMAT = "json"
 FEED_URI = "file:///C:/Users/alber/Desktop/myWork/projects/scrapy-book-site/scrapybooksite/booksite/booksite/spiders/jsonfiles/books-%(time)s.json" """
+#r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\htmlfiles"
