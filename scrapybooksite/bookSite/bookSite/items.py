@@ -11,11 +11,14 @@ import scrapy
 class BookSiteMainItem(scrapy.Item):
     category_name = scrapy.Field()
     category_link = scrapy.Field()
+
+
+#class BookSiteCategoryItem(scrapy.Item):
     book_name = scrapy.Field()
     book_link = scrapy.Field()
 
 
-class BookDataItem(scrapy.Item):
+#class BookDataItem(scrapy.Item):
     bookname = scrapy.Field()
     priceinpounds = scrapy.Field()
     rating = scrapy.Field()

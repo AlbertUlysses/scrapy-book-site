@@ -1,15 +1,12 @@
 import scrapy
 import os.path
-from booksite.items import BookSiteMainItem
-
+from booksite.items import BookSiteMainItem # BookSiteCategoryItem
 
 class BookSpider(scrapy.Spider):
     name = "books"
         
-    
     def start_requests(self):
-        yield scrapy.Request(url = 'http://books.toscrape.com/', callback = self.parse, dont_filter = True)
-        yield scrapy.Request(url = 'http://books.toscrape.com/', callback = self.htmlparse)
+        yield scrapy.Request(url = 'http://books.toscrape.com/', callback = self.parse)
     
     def parse(self, response):
 
@@ -20,27 +17,25 @@ class BookSpider(scrapy.Spider):
         filename = os.path.join( html_path, main_html_name ) 
         with open( filename, 'wb') as f:
             f.write(response.body)
+        
         item = BookSiteMainItem()
+        
+        next_page = []
+        
         # Enumerates to prevent yielding the same value 50 times.item = BookSiteMainItem()        
         for index, book in enumerate(response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a')):
             item['category_name'] = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/text()')[index].get().strip()
             item['category_link'] = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get()
-            yield item
-        
-    def htmlparse(self, response):        
-        # This empty list will be used to gather the links.
-        next_page = []
-        
-        # Enumerates to prevent yielding the same value 50 times.
-        for index, book in enumerate(response.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a')):
-            #item = book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get()
             next_page.append(book.xpath('//*[@id="default"]/div/div/div/aside/div[2]/ul/li/ul/li/a/@href')[index].get())
-            
+            yield item
+                
         for type in next_page:
             if type is not None:
                 type = response.urljoin(type)
-            yield scrapy.Request(type, self.htmlparse)
-            
+            yield scrapy.Request(type, self.bookpage_parse, dont_filter = True)
+            yield scrapy.Request(type, self.html_parse)
+        
+    def html_parse(self, response):   
         # Saves all the webpages for future access.
         page = response.url.split("/")[-2]
         html_name = "books-%s.html" % page
@@ -50,7 +45,7 @@ class BookSpider(scrapy.Spider):
             f.write(response.body)
         self.log('Saved file %s' % filename)
 
-    def parse_2(self, response):    
+    def bookpage_parse(self, response):    
         item = BookSiteMainItem()
         for index, book in enumerate(response.xpath('//*[@id="default"]/div/div/div/div/section/div[2]/ol/li/article/h3/a')):
             item['book_name'] = book.xpath('//*[@id="default"]/div/div/div/div/section/div[2]/ol/li/article/h3/a/text()')[index].get().strip(),

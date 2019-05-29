@@ -7,13 +7,13 @@
 import json
 import os.path
 from scrapy.exceptions import DropItem
-from booksite.items import BookSiteMainItem
+from booksite.items import BookSiteMainItem # BookSiteCategoryItem
 
 
 class BooksitePipeline(object):
-    
+
     def open_spider(self, spider):
-        self.file = open(r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\jsonfiles\books.json", 'w')
+        self.file = open(r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\jsonfiles\books.jl", 'w')
 
     def close_spider(self, books):
         self.file.close()
@@ -28,7 +28,7 @@ class BooksitePipeline(object):
 class BooksitePipeline1(object):
     
     def open_spider(self, spider):
-        self.file = open(r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\jsonfiles\books1.json", 'w')
+        self.file = open(r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\jsonfiles\books.jl", 'w')
 
     def close_spider(self, spider):
         self.file.close()
