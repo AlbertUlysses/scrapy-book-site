@@ -1,45 +1,29 @@
 Spider plan:
-- create a new spider that will crawl one of the links
-- Use the item module as a simple container to save scraped data
-- Create an feeder export to export the data onto my local machine
+Spider starts on the main page and moves into the category links that are listed on the side. From there the spider moves into each book webpage.
+There is one pipeline that saves all the data gethered into a json line file inside a json folder. Each webpage is saved as an html file on a local folder
+to ensure the orginal data is never lost. The html files are divided into the categories and the book folders to make searching them easy.
 
 
-- try to merge the spiders so it will move to the next page and yield different data
-- create a spider that calls the urls and names
-- then extract the real data
 
-The data gethered:
-** All webpages should be saved**
+Simple Data Dictionary:
 -Main Page
-** This data is only gathered from side panel**
-	-Category name
-	-links for category page
+	category_name - category names
+	category_link - links for category pages
 -Category pages
-	-book name 
-	-links that take you to the book's page
+	book_name - book names 
+	book_link - links that take you to the book's page
 -book page
-	-book name: response.xpath('//*[@id="content_inner"]/article/div[1]/div[2]/h1/text()').get()
-	-price: response.xpath('//*[@id="content_inner"]/article/div[1]/div[2]/p[1]/text()').get()
-	-rating: response.xpath('//*[@id="content_inner"]/article/div[1]/div[2]/p[3]/@class').get()
-	-prodcut information:
-		-UPC: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[0].get().split()[0]
-		-Product type: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[1].get().split()[0]
-		-price excl. tax in lbs: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[2].get().split()[0]
-		-price incl. tax in lbs: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[3].get().split()[0]
-		-tax in lbs: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[4].get().split()[0]
-		-availability and number available: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[5].get().split()
-		-number of reviews: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[6].get().split()[0]
+	full_bookname - book name: response.xpath('//*[@id="content_inner"]/article/div[1]/div[2]/h1/text()').get()
+	priceinpounds - price: response.xpath('//*[@id="content_inner"]/article/div[1]/div[2]/p[1]/text()').get()
+	rating - rating: response.xpath('//*[@id="content_inner"]/article/div[1]/div[2]/p[3]/@class').get()
+	prodcut information:
+		upc - UPC: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[0].get().split()[0]
+		producttype - Product type: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[1].get().split()[0]
+		priceexcludetax -price excl. tax in lbs: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[2].get().split()[0]
+		priceincludetax - price incl. tax in lbs: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[3].get().split()[0]
+		tax - tax in lbs: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[4].get().split()[0]
+		availability - availability: path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[5].get().split()[0:2]
+		numberavailable - number of avilable books: path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[5].get().split()[2:]
+		numberofreviews - number of reviews: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[6].get().split()[0]
 
 
----------------------------
-BRAINSTORMING AREA:
-
-First pipeline is complete, I have created a pipeline for the first page
-next I want to create a pipeline for html
-but also create a list of those html pages so I can then create a parse function similar to the one in the begining of the tutorial
-then I would repeat these steps for the last tree
-
-
-I have the html files saved however a recursion has occured and now it is spitting out the same information for all the html files
-
-what I can do is create an item for it and attempt to redo the process with a pipeline

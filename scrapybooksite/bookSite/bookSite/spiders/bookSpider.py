@@ -36,7 +36,7 @@ class BookSpider(scrapy.Spider):
         # Saves webpages for future access.
         page = response.url.split("/")[-2]
         html_name = "%s.html" % page
-        html_path = r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\htmlfiles"
+        html_path = r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\htmlfiles\categories"
         filename = os.path.join( html_path, html_name)        
         with open(filename, 'wb') as f:
             f.write(response.body)
@@ -60,7 +60,7 @@ class BookSpider(scrapy.Spider):
     def bookpage_html(self, response):
         page = response.url.split("/")[-2]
         html_name = "%s.html" % page
-        html_path = r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\htmlfiles"
+        html_path = r"C:\Users\alber\Desktop\myWork\projects\scrapy-book-site\scrapybooksite\booksite\booksite\spiders\htmlfiles\books"
         filename = os.path.join( html_path, html_name)        
         with open(filename, 'wb') as f:
             f.write(response.body)
