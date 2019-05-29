@@ -9,23 +9,22 @@ import scrapy
 
 
 class BookSiteMainItem(scrapy.Item):
+    # Items returned for the first page scraped.
     category_name = scrapy.Field()
     category_link = scrapy.Field()
-
-
-#class BookSiteCategoryItem(scrapy.Item):
+    
+    # Items returned for the second batch scraped.
     book_name = scrapy.Field()
     book_link = scrapy.Field()
 
-
-#class BookDataItem(scrapy.Item):
-    bookname = scrapy.Field()
+    # Items returned for the third batch scraped.
+    full_bookname = scrapy.Field()
     priceinpounds = scrapy.Field()
     rating = scrapy.Field()
     upc = scrapy.Field()
     producttype = scrapy.Field()
     priceexcludetax = scrapy.Field()
-    priceincludetac = scrapy.Field()
+    priceincludetax = scrapy.Field()
     tax = scrapy.Field()
     availability = scrapy.Field()
     numberavailable = scrapy.Field()
