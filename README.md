@@ -1,8 +1,8 @@
 # scrapy-book-site
 This is a web scrapper built in Python with the Scrapy Library. The website scrapped is "books.toscrape.com" a website built to practice web scrapping.
 ## Installation
-First create you virtual environment, then run "pip install -r requirements.txt" 
-To run the spider enter "scrapy crawl books" 
+First you will want to create your virtual environment, then run "pip install -r requirements.txt" 
+To run the spider you will enter "scrapy crawl books" 
 ## How the Spider Moves:
 Spider starts on the main page and moves into the category links that are listed on the side. From there the spider moves into each book webpage.
 There is one pipeline that saves all the data gethered into a json line file inside a json folder. Each webpage is saved as an html file on a local folder
