@@ -10,9 +10,9 @@ to ensure the orginal data is never lost. The html files are divided into the ca
 
 
 ## Data Dictionary:
-Below I have a data dictionary for the project. In the future I will re-write this for readability.
+Below I have a data dictionary for the project. 
 
-Simple Data Dictionary:
+Data Dictionary:
 -Main Page
 	category_name - category names
 	category_link - links for category pages
@@ -20,17 +20,17 @@ Simple Data Dictionary:
 	book_name - book names 
 	book_link - links that take you to the book's page
 -book page
-	full_bookname - book name: response.xpath('//*[@id="content_inner"]/article/div[1]/div[2]/h1/text()').get()
-	priceinpounds - price: response.xpath('//*[@id="content_inner"]/article/div[1]/div[2]/p[1]/text()').get()
-	rating - rating: response.xpath('//*[@id="content_inner"]/article/div[1]/div[2]/p[3]/@class').get()
-	prodcut information:
-		upc - UPC: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[0].get().split()[0]
-		producttype - Product type: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[1].get().split()[0]
-		priceexcludetax -price excl. tax in lbs: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[2].get().split()[0]
-		priceincludetax - price incl. tax in lbs: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[3].get().split()[0]
-		tax - tax in lbs: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[4].get().split()[0]
-		availability - availability: path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[5].get().split()[0:2]
-		numberavailable - number of avilable books: path.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[5].get().split()[2:]
-		numberofreviews - number of reviews: response.xpath('//*[@id="content_inner"]/article/table[@class="table table-striped"]//tr/td')[6].get().split()[0]
+	full_bookname - book name
+	priceinpounds - price
+	rating - rating
+	product information:
+		upc - UPC
+		producttype - Product type
+		priceexcludetax -price excl. tax in lbs
+		priceincludetax - price incl. tax in lbs
+		tax - tax in lbs
+		availability - availability
+		numberavailable - number of avilable books
+		numberofreviews - number of reviews
 
 
