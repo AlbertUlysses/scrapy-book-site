@@ -13,17 +13,17 @@ to ensure the orginal data is never lost. The html files are divided into the ca
 Below I have a data dictionary for the project. 
 
 Data Dictionary:
--Main Page
-	category_name - category names
-	category_link - links for category pages
--Category pages
-	book_name - book names 
-	book_link - links that take you to the book's page
--book page
-	full_bookname - book name
-	priceinpounds - price
-	rating - rating
-	product information:
+* Main Page
+	* category_name - category names
+	* category_link - links for category pages
+* Category pages
+	* book_name - book names 
+	* book_link - links that take you to the book's page
+* book page
+	* full_bookname - book name
+	* priceinpounds - price
+	* rating - rating
+	* product information:
 		upc - UPC
 		producttype - Product type
 		priceexcludetax -price excl. tax in lbs
