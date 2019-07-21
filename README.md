@@ -24,13 +24,13 @@ Data Dictionary:
 	* priceinpounds - price
 	* rating - rating
 	* product information:
-		upc - UPC
-		producttype - Product type
-		priceexcludetax -price excl. tax in lbs
-		priceincludetax - price incl. tax in lbs
-		tax - tax in lbs
-		availability - availability
-		numberavailable - number of avilable books
-		numberofreviews - number of reviews
+		* upc - UPC
+		* producttype - Product type
+		* priceexcludetax -price excl. tax in lbs
+		* priceincludetax - price incl. tax in lbs
+		* tax - tax in lbs
+		* availability - availability
+		* numberavailable - number of avilable books
+		* numberofreviews - number of reviews
 
 
